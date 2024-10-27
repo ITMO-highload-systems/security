@@ -34,7 +34,7 @@ class JwtService {
     }
 
     fun generateToken(userDetails: UserDetails): String {
-        return generateToken(HashMap(), userDetails)
+        return generateToken(mapOf("role" to userDetails.authorities.first().authority), userDetails)
     }
 
     fun generateToken(
@@ -79,6 +79,7 @@ class JwtService {
     }
 
     private fun extractAllClaims(token: String?): Claims {
+        println(token)
         return Jwts
             .parserBuilder()
             .setSigningKey(signInKey)

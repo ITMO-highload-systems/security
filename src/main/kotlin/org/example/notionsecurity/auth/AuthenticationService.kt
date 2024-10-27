@@ -14,6 +14,7 @@ import org.example.notionsecurity.user.UserRepository
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.function.Consumer
@@ -25,7 +26,9 @@ class AuthenticationService(
     private val tokenRepository: TokenRepository,
     private val passwordEncoder: PasswordEncoder,
     private val jwtService: JwtService,
-    private val authenticationManager: AuthenticationManager
+    private val userDetailsService: UserDetailsService,
+    private val authenticationManager: AuthenticationManager,
+    private val userRepository: UserRepository
 ) {
 
     fun register(request: RegisterRequest): AuthenticationResponse {
@@ -89,5 +92,22 @@ class AuthenticationService(
                 ObjectMapper().writeValue(response.outputStream, authResponse)
             }
         }
+    }
+
+    fun isTokenValid(fullToken: String): Boolean {
+        if (fullToken.startsWith("Bearer ")) {
+            val token = fullToken.substring(7)
+            val userEmail = jwtService.extractUsername(token) ?: return false
+            val userDetails = userDetailsService.loadUserByUsername(userEmail)
+            val tokenInDb = tokenRepository.findByToken(token)
+            val isValid = tokenInDb != null && !tokenInDb.expired && !tokenInDb.revoked
+            return isValid && jwtService.isTokenValid(token, userDetails)
+        }
+        return false
+    }
+
+    fun isUserExist(username: String): Boolean {
+        userRepository.findByEmail(username) ?: return false
+        return true
     }
 }

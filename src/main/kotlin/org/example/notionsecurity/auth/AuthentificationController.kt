@@ -6,10 +6,7 @@ import org.example.notionsecurity.auth.dto.AuthenticationRequest
 import org.example.notionsecurity.auth.dto.AuthenticationResponse
 import org.example.notionsecurity.auth.dto.RegisterRequest
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 
 @RestController
@@ -37,4 +34,19 @@ class AuthenticationController(private val service: AuthenticationService) {
     ) {
         service.refreshToken(request, response)
     }
+
+    @GetMapping("/is-token-valid/{token}")
+    fun isTokenValid(
+        @PathVariable token: String
+    ): ResponseEntity<Boolean> {
+        return ResponseEntity.ok(service.isTokenValid(token))
+    }
+
+    @GetMapping("/is-user-exist/{username}")
+    fun isUserExist(
+        @PathVariable username: String
+    ): ResponseEntity<Boolean> {
+        return ResponseEntity.ok(service.isUserExist(username))
+    }
+
 }
