@@ -19,10 +19,10 @@ class JwtService {
     private val secretKey: String? = null
 
     @Value("\${application.security.jwt.expiration}")
-    private val jwtExpiration: Long = 0
+    private val jwtExpiration: Long = 1000
 
     @Value("\${application.security.jwt.refresh-token.expiration}")
-    private val refreshExpiration: Long = 0
+    private val refreshExpiration: Long = 1000
 
     fun extractUsername(token: String?): String? {
         return extractClaim(token) { obj: Claims -> obj.subject }
