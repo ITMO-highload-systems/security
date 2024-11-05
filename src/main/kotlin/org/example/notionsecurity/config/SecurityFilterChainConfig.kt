@@ -26,6 +26,7 @@ class SecurityFilterChainConfig(
             csrf { disable() }
             authorizeHttpRequests {
                 authorize("/auth/**", permitAll)
+                authorize("/actuator/**", permitAll)
                 authorize("/auth/register", hasRole("ADMIN"))
                 authorize(anyRequest, authenticated)
             }
