@@ -1,32 +1,10 @@
-application:
-  security:
-    jwt:
-      secret-key: MegaLargeSigningSecretKeyForDemoApplicationMegaLargeSigningSecretKeyForDemoApplication
-      expiration: 86400000000
-      refresh-token:
-        expiration: 60480000000
 spring:
   application:
     name: notion-security
-  datasource:
-    url: jdbc:postgresql://localhost:5432/notion_security
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
-  flyway:
-    enabled: true
-    baseline-on-migrate: true
-server:
-  port: 0
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    config:
+      fail-fast: true
+      enabled: true
 
