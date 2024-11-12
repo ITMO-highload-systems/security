@@ -18,3 +18,4 @@ create table token
 );
 
 insert into _user(email, password, role) values ('admin@gmail.com', '$2a$10$lYyLIR.WhJWATAoj1.53LOINXZ8s1DPjZGJc/NkzjkYxbcB92SwYK', 'ADMIN');
+insert into _user(email, password, role) values ('notion', '$2a$10$lYyLIR.WhJWATAoj1.53LOINXZ8s1DPjZGJc/NkzjkYxbcB92SwYK', 'ADMIN');

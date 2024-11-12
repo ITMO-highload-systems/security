@@ -27,6 +27,19 @@ class EntityControllerExceptionHandler : ResponseEntityExceptionHandler() {
             .body(ApiException(status, message))
     }
 
+    @ExceptionHandler(IllegalArgumentException::class)
+    protected fun handleIllegalException(
+        request: HttpServletRequest?,
+        ex: SignatureException
+    ): ResponseEntity<ApiException> {
+        val status = HttpStatus.BAD_REQUEST.value()
+        val message = ex.message
+
+        return ResponseEntity.status(status)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(ApiException(status, message))
+    }
+
     @ExceptionHandler(Exception::class)
     protected fun handleException(
         request: HttpServletRequest?,

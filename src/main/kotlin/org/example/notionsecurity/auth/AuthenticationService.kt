@@ -33,6 +33,9 @@ class AuthenticationService(
 
     fun register(request: RegisterRequest): AuthenticationResponse {
         val user = User(null, request.email, passwordEncoder.encode(request.password), request.role)
+        if(repository.findByEmail(request.email) != null) {
+            throw IllegalArgumentException("user already exists")
+        }
         val savedUser = repository.save<User>(user)
         val jwtToken = jwtService.generateToken(user)
         val refreshToken = jwtService.generateRefreshToken(user)
