@@ -98,13 +98,17 @@ class AuthenticationService(
     }
 
     fun isTokenValid(fullToken: String): Boolean {
-        if (fullToken.startsWith("Bearer ")) {
-            val token = fullToken.substring(7)
-            val userEmail = jwtService.extractUsername(token) ?: return false
-            val userDetails = userDetailsService.loadUserByUsername(userEmail)
-            val tokenInDb = tokenRepository.findByToken(token)
-            val isValid = tokenInDb != null && !tokenInDb.expired && !tokenInDb.revoked
-            return isValid && jwtService.isTokenValid(token, userDetails)
+        try {
+            if (fullToken.startsWith("Bearer ")) {
+                val token = fullToken.substring(7)
+                val userEmail = jwtService.extractUsername(token) ?: return false
+                val userDetails = userDetailsService.loadUserByUsername(userEmail)
+                val tokenInDb = tokenRepository.findByToken(token)
+                val isValid = (tokenInDb != null) && !tokenInDb.expired && !tokenInDb.revoked
+                return isValid && jwtService.isTokenValid(token, userDetails)
+            }
+        } catch (e: Exception) {
+            return false
         }
         return false
     }

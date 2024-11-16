@@ -25,9 +25,9 @@ class SecurityFilterChainConfig(
         http {
             csrf { disable() }
             authorizeHttpRequests {
+                authorize("/auth/register", hasRole("ADMIN"))
                 authorize("/auth/**", permitAll)
                 authorize("/actuator/**", permitAll)
-                authorize("/auth/register", hasRole("ADMIN"))
                 authorize(anyRequest, authenticated)
             }
             addFilterBefore<UsernamePasswordAuthenticationFilter>(jwtAuthFilter)

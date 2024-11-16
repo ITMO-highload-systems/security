@@ -1,0 +1,39 @@
+application:
+  security:
+    jwt:
+      secret-key: MegaLargeSigningSecretKeyForDemoApplicationMegaLargeSigningSecretKeyForDemoApplication
+      expiration: 86400000000
+      refresh-token:
+        expiration: 60480000000
+spring:
+  datasource:
+    url: ${NOTION_SECURITY_DATABASE_URL:jdbc:postgresql://localhost:5432/notion_security}
+    username: ${NOTION_SECURITY_DATABASE_USERNAME:postgres}
+    password: ${NOTION_SECURITY_DATABASE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+server:
+  port: 0
+
+eureka:
+  client:
+    enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 10
+        sliding-window-type: count_based
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s

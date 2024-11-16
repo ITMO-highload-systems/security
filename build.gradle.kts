@@ -29,6 +29,8 @@ val postgresqlVersion = "42.7.4"
 val junitPlatformLauncherVersion = "1.11.3"
 val kotlinTestJunit5 = "2.0.21"
 val cloudConfigVersion = "4.1.3"
+val springSecurityTestVersion = "6.3.4"
+val testContainersVersion = "1.20.1"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
@@ -50,7 +52,12 @@ dependencies {
     runtimeOnly("org.flywaydb:flyway-database-postgresql:$flyWayVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test:$springSecurityTestVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinStdlibJdkVersion")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testImplementation("org.testcontainers:testcontainers:$testContainersVersion")
+    testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
+    testImplementation("org.testcontainers:postgresql:$testContainersVersion")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformLauncherVersion")
 }
