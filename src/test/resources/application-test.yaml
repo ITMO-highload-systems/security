@@ -6,6 +6,10 @@ application:
       refresh-token:
         expiration: 60480000000
 spring:
+  cloud:
+    config:
+      enabled: false
+      fail-fast: false
   datasource:
     url: ${NOTION_SECURITY_DATABASE_URL:jdbc:postgresql://localhost:5432/notion_security}
     username: ${NOTION_SECURITY_DATABASE_USERNAME:postgres}
