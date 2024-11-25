@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import java.security.Key
+import java.time.Clock
+import java.time.Instant
 import java.util.*
 import java.util.function.Function
 
 
 @Service
-class JwtService {
+class JwtService(private val clock: Clock) {
     @Value("\${application.security.jwt.secret-key}")
     private val secretKey: String? = null
 
@@ -59,8 +61,8 @@ class JwtService {
             .builder()
             .setClaims(extraClaims)
             .setSubject(userDetails.username)
-            .setIssuedAt(Date(System.currentTimeMillis()))
-            .setExpiration(Date(System.currentTimeMillis() + expiration))
+            .setIssuedAt(Date.from(Instant.now(clock)))
+            .setExpiration(Date(Instant.now(clock).toEpochMilli() + expiration))
             .signWith(signInKey, SignatureAlgorithm.HS256)
             .compact()
     }
@@ -79,7 +81,6 @@ class JwtService {
     }
 
     private fun extractAllClaims(token: String?): Claims {
-        println(token)
         return Jwts
             .parserBuilder()
             .setSigningKey(signInKey)

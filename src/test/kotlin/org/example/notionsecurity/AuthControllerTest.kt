@@ -1,13 +1,27 @@
 package org.example.notionsecurity
 
 import org.example.notionsecurity.auth.dto.AuthenticationResponse
+import org.junit.jupiter.api.BeforeEach
+import org.mockito.Mockito.`when`
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import java.time.Clock
+import java.time.Instant
 import kotlin.test.Test
 
 class AuthControllerTest : AbstractIntegrationTest() {
+    @MockBean
+    lateinit var clock: Clock
+    var now: Instant = Instant.now()
+
+    @BeforeEach
+    fun before() {
+        now.plusSeconds(1)
+        `when`(clock.instant()).thenReturn(now)
+    }
 
 
     @Test
