@@ -31,6 +31,7 @@ val kotlinTestJunit5 = "2.0.21"
 val cloudConfigVersion = "4.1.3"
 val springSecurityTestVersion = "6.3.4"
 val testContainersVersion = "1.20.1"
+val webmvcUiVersion = "2.6.0"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
@@ -39,6 +40,8 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.springframework.cloud:spring-cloud-starter-config:$cloudConfigVersion")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$webmvcUiVersion")
+
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonModuleKotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinReflectVersion")

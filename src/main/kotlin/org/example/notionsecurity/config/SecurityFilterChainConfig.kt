@@ -28,6 +28,9 @@ class SecurityFilterChainConfig(
                 authorize("/auth/register", hasRole("ADMIN"))
                 authorize("/auth/**", permitAll)
                 authorize("/actuator/**", permitAll)
+                authorize("/swagger-ui/**", permitAll)
+                authorize("/swagger-ui.html/**", permitAll)
+                authorize("/v3/**", permitAll)
                 authorize(anyRequest, authenticated)
             }
             addFilterBefore<UsernamePasswordAuthenticationFilter>(jwtAuthFilter)
